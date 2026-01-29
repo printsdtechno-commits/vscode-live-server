@@ -2,5 +2,9 @@
     "buildCommand": "next build",
     "devCommand": "next dev",
     "installCommand": "npm install",
-    "framework": "nextjs"
+    "framework": "nextjs",
+    "env": {
+        "DATADOG_API_KEY": "11111111111111111111111111111111",
+        "DATADOG_APP_KEY": "2222222222222222222222222222222222222222"
+    }
 }
