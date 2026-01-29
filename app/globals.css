@@ -32,6 +32,9 @@ body {
     color: var(--foreground);
     background: var(--background);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+    overflow-x: hidden;
 }
 
 .glass-morphism {

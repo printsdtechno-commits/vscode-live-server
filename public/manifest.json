@@ -1,0 +1,22 @@
+{
+    "name": "Adirai Rides",
+    "short_name": "AdiraiRides",
+    "description": "Premium Ride Service for Adirampattinam",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#064e3b",
+    "theme_color": "#10b981",
+    "icons": [
+        {
+            "src": "/logo.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
