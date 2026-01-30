@@ -72,10 +72,7 @@ export default function Home() {
                             <button onClick={() => router.push('/admin')} className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl flex items-center gap-2">
                                 <div className="w-2 h-2 bg-purple-500 rounded-full" /> Switch to Admin
                             </button>
-                            <div className="p-3 my-2 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-100/50">
-                                <p className="text-[10px] font-black text-emerald-600 uppercase mb-1">App Domain (Sharing)</p>
-                                <p className="text-[10px] font-mono break-all text-zinc-600">{getAppBaseUrl()}/</p>
-                            </div>
+
                             <div className="h-px bg-zinc-100 dark:bg-zinc-800 my-1" />
                             <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm hover:bg-red-50 text-red-600 rounded-xl flex items-center gap-2">
                                 <LogOut size={14} /> Logout

@@ -381,10 +381,7 @@ export default function DriverPage() {
                         <div className="p-2 space-y-1">
                             <button onClick={() => router.push('/')} className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl flex items-center gap-2">Switch to Customer</button>
                             <button onClick={() => router.push('/admin')} className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl flex items-center gap-2">Switch to Admin</button>
-                            <div className="p-3 mt-2 bg-zinc-50 dark:bg-zinc-950/40 rounded-xl border border-zinc-100 dark:border-zinc-800">
-                                <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">App Domain (Sharing)</p>
-                                <p className="text-[10px] font-mono break-all text-emerald-600">{getAppBaseUrl()}/driver</p>
-                            </div>
+
                             <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm hover:bg-red-50 text-red-600 rounded-xl flex items-center gap-2 font-bold"><LogOut size={14} /> Logout</button>
                         </div>
                     </div>
