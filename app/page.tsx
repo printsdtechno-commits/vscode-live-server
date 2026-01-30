@@ -5,6 +5,7 @@ import BookingInterface from './components/Booking';
 import { Menu, User, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getAppBaseUrl } from '@/lib/utils';
 
 // Dynamically import Map with no SSR to avoid window is not defined error
 const MapComponent = dynamic(() => import('./components/Map'), {
@@ -12,8 +13,8 @@ const MapComponent = dynamic(() => import('./components/Map'), {
     loading: () => (
         <div className="h-screen w-full flex items-center justify-center bg-zinc-100 text-zinc-500 animate-pulse">
             <div className="text-center">
-                <p className="font-bold text-xl mb-2">Adirai Rides</p>
-                <p>Loading Map...</p>
+                <p className="font-bold text-xl mb-2">Adirai Rides (அதிரை ரைட்ஸ்)</p>
+                <p>வரைபடம் ஏற்றப்படுகிறது...</p>
             </div>
         </div>
     )
@@ -53,21 +54,40 @@ export default function Home() {
 
             {/* Header / Overlay Controls */}
             <div className="absolute top-4 left-4 right-4 z-[500] flex justify-between items-start pointer-events-none">
-                <button
-                    onClick={handleLogout}
-                    className="pointer-events-auto bg-white dark:bg-black p-3 rounded-full shadow-lg hover:scale-105 transition-transform text-red-500"
-                >
-                    <LogOut className="w-6 h-6" />
-                </button>
+                <div className="pointer-events-auto relative group">
+                    <button className="bg-white dark:bg-black p-3 rounded-full shadow-lg text-emerald-600 hover:scale-105 transition-transform">
+                        <Menu className="w-6 h-6" />
+                    </button>
+
+                    {/* Navigation Dropdown */}
+                    <div className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl overflow-hidden hidden group-hover:block transition-all">
+                        <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 border-b border-emerald-100">
+                            <p className="font-bold text-sm text-emerald-800 dark:text-emerald-400">{user?.name || 'User'}</p>
+                            <p className="text-xs text-emerald-600">{user?.phone}</p>
+                        </div>
+                        <div className="p-2 space-y-1">
+                            <button onClick={() => router.push('/driver')} className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl flex items-center gap-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full" /> Switch to Driver
+                            </button>
+                            <button onClick={() => router.push('/admin')} className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl flex items-center gap-2">
+                                <div className="w-2 h-2 bg-purple-500 rounded-full" /> Switch to Admin
+                            </button>
+                            <div className="p-3 my-2 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-100/50">
+                                <p className="text-[10px] font-black text-emerald-600 uppercase mb-1">App Domain (Sharing)</p>
+                                <p className="text-[10px] font-mono break-all text-zinc-600">{getAppBaseUrl()}/</p>
+                            </div>
+                            <div className="h-px bg-zinc-100 dark:bg-zinc-800 my-1" />
+                            <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm hover:bg-red-50 text-red-600 rounded-xl flex items-center gap-2">
+                                <LogOut size={14} /> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Branding is now handled inside the Booking card at the bottom */}
                 <div />
 
-                <button className="pointer-events-auto bg-white dark:bg-black p-3 rounded-full shadow-lg hover:scale-105 transition-transform text-black dark:text-white">
-                    <a href="/admin">
-                        <User className="w-6 h-6" />
-                    </a>
-                </button>
+                <div />
             </div>
 
             {/* Map Background */}

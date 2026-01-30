@@ -35,22 +35,64 @@ body {
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior-y: none;
     overflow-x: hidden;
+    touch-action: manipulation;
+}
+
+/* Modern Mesh Gradient Background */
+.bg-mesh {
+    background-color: #ffffff;
+    background-image: radial-gradient(at 0% 0%, hsla(147, 100%, 93%, 1) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(110, 100%, 93%, 1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, hsla(147, 100%, 91%, 1) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, hsla(109, 100%, 91%, 1) 0px, transparent 50%);
+}
+
+.dark .bg-mesh {
+    background-color: #064e3b;
+    background-image: radial-gradient(at 0% 0%, hsla(147, 60%, 10%, 1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, hsla(160, 60%, 15%, 1) 0px, transparent 50%);
 }
 
 .glass-morphism {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 }
 
 .btn-primary {
-    @apply bg-primary text-white font-bold py-4 rounded-2xl shadow-lg shadow-primary/20 hover:bg-primary-dark active:scale-95 transition-all flex items-center justify-center gap-2;
+    @apply bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-emerald-500/30 active:scale-95 transition-all flex items-center justify-center gap-2 hover:brightness-110;
 }
 
 .input-field {
-    @apply w-full bg-white dark:bg-emerald-950/30 border-2 border-emerald-100 dark:border-emerald-900 focus:border-primary p-4 rounded-2xl text-lg font-medium outline-none transition-all;
+    @apply w-full bg-white/80 backdrop-blur-sm border-2 border-emerald-50 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 p-4 rounded-2xl text-lg font-bold text-emerald-950 placeholder-emerald-800/40 outline-none transition-all shadow-sm;
 }
 
 .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Hide Dev Tools and Attribution on Mobile */
+@media (max-width: 768px) {
+
+    [data-nextjs-toast],
+    [data-nextjs-indicator],
+    [data-nextjs-portal],
+    [data-vercel-toolbar],
+    nextjs-portal,
+    #nextjs-portal,
+    #nextjs-dev-indicator,
+    #nextjs-indicator-status,
+    .nextjs-static-indicator-container,
+    .nextjs-toast-errors-parent,
+    #__next-build-watcher,
+    .leaflet-control-attribution {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+    }
 }

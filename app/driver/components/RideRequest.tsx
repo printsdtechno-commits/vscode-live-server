@@ -1,6 +1,6 @@
 "use client";
-import React from 'react';
-import { MapPin, Navigation, Clock, Banknote, User } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import { MapPin, Phone, X, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface RideRequestProps {
@@ -22,82 +22,85 @@ export default function RideRequest({ onAccept, onReject, pickup, drop, price, d
         <AnimatePresence>
             {visible && (
                 <motion.div
-                    initial={{ y: "100%" }}
-                    animate={{ y: 0 }}
-                    exit={{ y: "100%" }}
-                    transition={{ type: "spring", damping: 25, stiffness: 500 }}
-                    className="absolute bottom-0 left-0 right-0 bg-white dark:bg-zinc-900 rounded-t-3xl shadow-2xl p-6 z-[1000] border-t border-zinc-200 dark:border-zinc-800 safe-bottom"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.1 }}
+                    className="fixed inset-0 z-[2000] bg-zinc-900 flex flex-col items-center justify-between py-12 px-6 safe-top safe-bottom"
                 >
-                    <div className="w-12 h-1.5 bg-zinc-300 dark:bg-zinc-700 rounded-full mx-auto mb-6" />
-
-                    {/* Header with User Info & Huge Price */}
-                    <div className="flex items-center justify-between mb-8">
-                        <div>
-                            <h2 className="text-zinc-500 text-sm font-bold uppercase tracking-widest mb-1">புதிய சவாரி (New Ride)</h2>
-                            <div className="flex items-baseline gap-2">
-                                <span className="text-4xl font-black text-emerald-600">₹{price}</span>
-                                <span className="text-zinc-400 font-bold">/ {distance} KM</span>
-                            </div>
-                            <div className="flex gap-2 mt-2 flex-wrap">
-                                <span className="text-[10px] font-black bg-zinc-900 text-white px-2 py-1 rounded-md uppercase tracking-tight flex items-center gap-1">
-                                    <Banknote size={10} />
-                                    {paymentMethod || 'Cash'}
-                                </span>
-                                {isRoundTrip && (
-                                    <span className="text-[10px] font-black bg-blue-100 text-blue-700 px-2 py-1 rounded-md uppercase tracking-tight">Return Included</span>
-                                )}
-                                {(waiting ?? 0) > 0 && (
-                                    <span className="text-[10px] font-black bg-emerald-100 text-emerald-700 px-2 py-1 rounded-md uppercase tracking-tight">{waiting}h Wait</span>
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center mb-1 border-2 border-emerald-200 dark:border-emerald-800">
-                                <User className="w-6 h-6 text-emerald-600" />
-                            </div>
-                            <p className="font-black text-sm text-right text-zinc-900 dark:text-white uppercase tracking-tighter">{userName || "User"}</p>
-                        </div>
+                    {/* Background Visuals */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[100px] animate-pulse" />
                     </div>
 
-                    <div className="space-y-6 mb-8">
-                        {/* Pickup */}
-                        <div className="flex gap-4 items-start">
-                            <div className="mt-1">
-                                <div className="w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-emerald-100 dark:ring-emerald-900/30" />
-                                <div className="w-0.5 h-10 bg-zinc-200 dark:bg-zinc-700 mx-auto my-1" />
-                            </div>
-                            <div>
-                                <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-black">PICKUP</p>
-                                <h3 className="font-bold text-lg leading-tight text-zinc-800 dark:text-zinc-200">{pickup}</h3>
-                            </div>
-                        </div>
-
-                        {/* Drop */}
-                        <div className="flex gap-4 items-start">
-                            <div className="mt-1">
-                                <div className="w-4 h-4 rounded-full bg-red-500 ring-4 ring-red-100 dark:ring-red-900/30" />
-                            </div>
-                            <div>
-                                <p className="text-[10px] text-zinc-400 uppercase tracking-[0.2em] font-black">DROP OFF</p>
-                                <h3 className="font-bold text-lg leading-tight text-zinc-800 dark:text-zinc-200">{drop}</h3>
-                            </div>
-                        </div>
+                    {/* Top: Header */}
+                    <div className="relative z-10 text-center space-y-2">
+                        <motion.div
+                            animate={{ scale: [1, 1.1, 1] }}
+                            transition={{ repeat: Infinity, duration: 2 }}
+                            className="inline-block px-4 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-black uppercase tracking-widest border border-emerald-500/30"
+                        >
+                            Incoming Request
+                        </motion.div>
+                        <h1 className="text-3xl font-black text-white">{userName || "New Customer"}</h1>
+                        <p className="text-zinc-400 font-medium">wants a ride</p>
                     </div>
 
-                    <div className="flex gap-4">
+                    {/* Middle: Stats */}
+                    <div className="relative z-10 w-full max-w-sm bg-zinc-800/50 backdrop-blur-md rounded-[32px] p-6 border border-zinc-700 space-y-6">
+                        <div className="text-center">
+                            <p className="text-zinc-500 text-xs font-black uppercase tracking-widest">Est. Earning</p>
+                            <p className="text-5xl font-black text-white mt-2">₹{price}</p>
+                            <p className="text-zinc-400 text-sm font-bold mt-1">{distance} KM • {paymentMethod || 'Cash'}</p>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="flex items-start gap-3">
+                                <div className="mt-1 w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                                <div>
+                                    <p className="text-[10px] text-zinc-500 font-bold uppercase">Pickup</p>
+                                    <p className="text-white font-bold leading-tight line-clamp-2">{pickup}</p>
+                                </div>
+                            </div>
+                            <div className="w-0.5 h-6 bg-zinc-700 ml-1" />
+                            <div className="flex items-start gap-3">
+                                <div className="mt-1 w-2 h-2 bg-white rounded-full" />
+                                <div>
+                                    <p className="text-[10px] text-zinc-500 font-bold uppercase">Drop</p>
+                                    <p className="text-white font-bold leading-tight line-clamp-2">{drop}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {waiting ? (
+                            <div className="bg-emerald-900/30 p-3 rounded-xl border border-emerald-900/50 text-center">
+                                <p className="text-emerald-400 text-xs font-bold">Waiting: {waiting} hours (Extra Fare)</p>
+                            </div>
+                        ) : null}
+                    </div>
+
+                    {/* Bottom: Actions */}
+                    <div className="relative z-10 w-full max-w-sm grid grid-cols-2 gap-5">
                         <button
                             onClick={onReject}
-                            className="flex-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-500 py-5 rounded-3xl font-bold text-lg transition-all active:scale-95"
+                            className="flex flex-col items-center gap-3 group"
                         >
-                            நிராகரி
+                            <div className="w-16 h-16 bg-zinc-800 rounded-full flex items-center justify-center border border-zinc-700 group-active:scale-95 transition-all">
+                                <X className="w-6 h-6 text-zinc-400" />
+                            </div>
+                            <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Decline</span>
                         </button>
+
                         <button
                             onClick={onAccept}
-                            className="flex-[2] bg-emerald-600 text-white py-5 rounded-3xl font-black text-xl shadow-xl shadow-emerald-600/30 transition-all active:scale-95 flex items-center justify-center gap-3"
+                            className="flex flex-col items-center gap-3 group"
                         >
-                            <span>ஏற்கவும்</span>
-                            <div className="h-6 w-[1px] bg-white/30 mx-2" />
-                            <span>₹{price}</span>
+                            <div className="relative w-20 h-20">
+                                <div className="absolute inset-0 bg-emerald-500 rounded-full animate-ping opacity-50" />
+                                <div className="absolute inset-0 bg-emerald-500 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-600/50 group-active:scale-95 transition-all outline outline-4 outline-emerald-500/30">
+                                    <Phone className="w-8 h-8 text-white fill-current" />
+                                </div>
+                            </div>
+                            <span className="text-xs font-bold text-white uppercase tracking-widest mt-1">Accept</span>
                         </button>
                     </div>
                 </motion.div>

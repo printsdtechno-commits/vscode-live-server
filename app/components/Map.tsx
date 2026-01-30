@@ -20,26 +20,9 @@ interface MapProps {
     drop?: string;
 }
 
-// Coordinate Database for Simulation
-const COORDS: Record<string, [number, number]> = {
-    'adirampattinam': [10.3409, 79.3789],
-    'pattukottai': [10.4287, 79.3175],
-    'muthupettai': [10.4000, 79.4833],
-    'thanjavur': [10.7870, 79.1378],
-    'mallipattinam': [10.2742, 79.3175],
-    'peravurani': [10.3000, 79.1667],
-    'chennai': [13.0827, 80.2707],
-};
+import { getCoordinates } from "@/lib/utils";
 
-const getCoords = (name: string): [number, number] => {
-    const lower = name.toLowerCase();
-    const key = Object.keys(COORDS).find(k => lower.includes(k));
-    if (key) return COORDS[key];
-
-    // Fallback: Adirai with a small randomized offset if it's a local street
-    const offset = (name.length % 10) * 0.002;
-    return [10.3409 + offset, 79.3789 + offset];
-};
+// Helper to auto-fit markers
 
 // Helper to auto-fit markers
 function MapRecenter({ pickup, drop }: { pickup: [number, number] | null, drop: [number, number] | null }) {
@@ -60,8 +43,8 @@ function MapRecenter({ pickup, drop }: { pickup: [number, number] | null, drop: 
 }
 
 export default function MapComponent({ pickup, drop }: MapProps) {
-    const pickupCoords = pickup ? getCoords(pickup) : null;
-    const dropCoords = drop ? getCoords(drop) : null;
+    const pickupCoords = pickup ? getCoordinates(pickup) : null;
+    const dropCoords = drop ? getCoordinates(drop) : null;
 
     // Create icons with colors
     const pickupIcon = L.divIcon({
@@ -79,7 +62,7 @@ export default function MapComponent({ pickup, drop }: MapProps) {
     });
 
     return (
-        <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 z-0">
             <MapContainer
                 center={[10.3409, 79.3789]}
                 zoom={14}
@@ -90,19 +73,19 @@ export default function MapComponent({ pickup, drop }: MapProps) {
                 <ZoomControl position="topright" />
                 <MapRecenter pickup={pickupCoords} drop={dropCoords} />
                 <TileLayer
-                    attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
-                    url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
 
                 {pickupCoords && (
                     <Marker position={pickupCoords} icon={pickupIcon}>
-                        <Popup>Pickup: {pickup}</Popup>
+                        <Popup>ஏறுமிடம்: {pickup}</Popup>
                     </Marker>
                 )}
 
                 {dropCoords && (
                     <Marker position={dropCoords} icon={dropIcon}>
-                        <Popup>Destination: {drop}</Popup>
+                        <Popup>இறங்குமிடம்: {drop}</Popup>
                     </Marker>
                 )}
 

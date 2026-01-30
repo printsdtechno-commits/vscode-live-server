@@ -43,9 +43,9 @@ export default function AdminDashboard() {
                     setRecentRides(history.slice(-5).reverse().map((r: any) => ({
                         id: `#${String(r.id || '').slice(-4) || 'N/A'}`,
                         user: r.user || "Customer",
-                        driver: r.driver?.name || 'Unknown',
+                        driver: r.driver?.name || 'தெரியவில்லை',
                         from: r.pickup || 'Unknown',
-                        to: r.drop || 'Unknown',
+                        to: r.drop || 'தெரியவில்லை',
                         status: 'Completed',
                         amount: `₹${r.price || 0}`
                     })));
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
             <main className="flex-1 overflow-y-auto p-8 relative">
                 <header className="flex justify-between items-center mb-8">
                     <div>
-                        <h2 className="text-2xl font-bold text-black dark:text-white">Overview</h2>
+                        <h2 className="text-2xl font-bold text-black dark:text-white">கண்ணோட்டம் (Overview)</h2>
                         <p className="text-zinc-500">Welcome back, Admin</p>
                     </div>
                     <button className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800">
@@ -145,7 +145,7 @@ export default function AdminDashboard() {
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             {/* Recent Rides List */}
                             <div className="lg:col-span-2 bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-100 dark:border-zinc-800">
-                                <h3 className="font-bold text-lg mb-4">Recent Activity (சமீபத்திய சவாரிகள்)</h3>
+                                <h3 className="font-bold text-lg mb-4">சமீபத்திய சவாரிகள் (Recent Activity)</h3>
                                 <div className="space-y-4">
                                     {recentRides.map((ride, i) => (
                                         <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 hover:bg-zinc-100 transition-colors">
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
                                 className="bg-blue-600 text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
                             >
                                 <Users size={18} />
-                                <span>+ INVITE NEW DRIVER</span>
+                                <span>+ புதிய ஓட்டுநரை அழை (INVITE)</span>
                             </button>
                         </div>
 
@@ -228,7 +228,7 @@ export default function AdminDashboard() {
                                     </div>
                                     <div className="mt-6 pt-6 border-t border-zinc-50 dark:border-zinc-800 space-y-3">
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-zinc-400 font-bold uppercase text-[10px]">Mobile</span>
+                                            <span className="text-zinc-400 font-bold uppercase text-[10px]">கைப்பேசி</span>
                                             <span className="font-black text-blue-600">{d.phone}</span>
                                         </div>
                                         <div className="flex justify-between text-sm p-2 bg-orange-50 dark:bg-orange-950/20 rounded-xl my-1 border border-orange-100">
@@ -236,12 +236,12 @@ export default function AdminDashboard() {
                                             <span className="font-black text-orange-600">₹{d.cashCollected || 0}</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-zinc-400 font-bold uppercase text-[10px]">Online Earnings</span>
+                                            <span className="text-zinc-400 font-bold uppercase text-[10px]">இணைய வருவாய்</span>
                                             <span className="font-black text-emerald-600">₹{d.onlineTotal || 0}</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-zinc-400 font-bold uppercase text-[10px]">Status</span>
-                                            <span className="text-green-500 font-black flex items-center gap-1"><span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" /> Registered</span>
+                                            <span className="text-green-500 font-black flex items-center gap-1"><span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" /> பதிவு செய்யப்பட்டது</span>
                                         </div>
                                     </div>
                                 </div>
@@ -265,7 +265,7 @@ function NavItem({ icon, label, active = false, onClick }: { icon: React.ReactNo
             onClick={onClick}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${active
                 ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg shadow-black/10'
-                : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                : 'text-zinc-500 active:bg-zinc-100 dark:active:bg-zinc-800'
                 }`}>
             {icon}
             <span>{label}</span>

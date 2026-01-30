@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { ArrowRight, Phone, Unlock, User, Car, Camera, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { generateUniqueOTP, dbData, resizeImage } from '@/lib/utils';
+import { auth } from '@/lib/firebase';
+import { signInAnonymously } from 'firebase/auth';
 
 export default function DriverLoginPage() {
     const router = useRouter();
@@ -47,8 +49,12 @@ export default function DriverLoginPage() {
         }
     };
 
-    const handleComplete = () => {
+
+
+    const handleComplete = async () => {
         if (!name || !vehicleType || !photo) return alert("Complete all details including photo");
+
+        // Auth skipped to prevent configuration crashes.
 
         const driverData = { phone, name, vehicle: vehicleType, photo, type: 'driver', joinedAt: new Date().toISOString() };
         dbData.saveDriver(driverData);
@@ -83,7 +89,7 @@ export default function DriverLoginPage() {
                                 className="w-full bg-emerald-900/40 border-2 border-emerald-800 focus:border-emerald-400 p-5 rounded-3xl text-xl outline-none transition-all"
                             />
                             <button onClick={handleSendOtp} className="w-full bg-emerald-500 hover:bg-emerald-400 p-5 rounded-3xl font-bold text-xl flex items-center justify-center gap-3">
-                                OTP பெறவும் <ArrowRight />
+                                OTP அனுப்பவும் <ArrowRight />
                             </button>
                         </motion.div>
                     )}
@@ -106,7 +112,7 @@ export default function DriverLoginPage() {
                         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
                             <div className="text-center">
                                 <h2 className="text-2xl font-bold text-white">உங்கள் புகைப்படம்</h2>
-                                <p className="text-emerald-500">Add a professional photo</p>
+                                <p className="text-emerald-500">உங்கள் புகைப்படத்தை சேர்க்கவும்</p>
                             </div>
 
                             <div className="flex justify-center">
@@ -119,7 +125,7 @@ export default function DriverLoginPage() {
                                     ) : (
                                         <div className="flex flex-col items-center">
                                             <Camera className="w-10 h-10 text-emerald-500 mb-2" />
-                                            <span className="text-xs">UPLOD PHOTO</span>
+                                            <span className="text-xs">புகைப்படம்</span>
                                         </div>
                                     )}
                                     <input type="file" ref={fileInputRef} onChange={handlePhotoSelect} hidden accept="image/*" />
@@ -156,7 +162,7 @@ export default function DriverLoginPage() {
                                     </button>
                                 ))}
                             </div>
-                            <button onClick={handleComplete} className="w-full bg-white text-emerald-950 p-6 rounded-3xl font-black text-xl mt-6">START EARNING 🚀</button>
+                            <button onClick={handleComplete} className="w-full bg-white text-emerald-950 p-6 rounded-3xl font-black text-xl mt-6">பயணத்தை தொடங்கவும் 🚀</button>
                         </motion.div>
                     )}
                 </AnimatePresence>

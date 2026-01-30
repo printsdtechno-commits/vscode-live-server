@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import ErrorSuppressor from './components/ErrorSuppressor';
 import "./globals.css";
 
 export const viewport = {
@@ -20,6 +21,8 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
     apple: "/logo.png",
   }
 };
@@ -33,6 +36,7 @@ export default function RootLayout({
     <html lang="ta">
       <body className="antialiased">
         {children}
+        <ErrorSuppressor />
         <SpeedInsights />
       </body>
     </html>
