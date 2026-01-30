@@ -596,10 +596,10 @@ export default function BookingInterface({ onPickupChange, onDropChange }: Booki
                     </div>
 
                     <div className="flex items-center justify-between px-2 pt-1">
-                        <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest flex items-center gap-1">
+                        <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest flex items-center gap-1">
                             <div className={`w-1.5 h-1.5 rounded-full ${(db as any).type !== 'mock' ? 'bg-emerald-500' : 'bg-orange-500'}`} />
                             {(db as any).type !== 'mock' ? 'Cloud Connected' : 'Local Mode (Sync Disabled)'}
-                        </p>
+                        </div>
                     </div>
                     <button onClick={handleConfirm} className="btn-primary w-full text-lg py-4 shadow-emerald-200">
                         பயணத்தை உறுதி செய்
